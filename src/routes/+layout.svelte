@@ -2,31 +2,26 @@
   import { fade } from "svelte/transition";
   import { page } from "$app/state";
   import "../app.css";
+  import { authState } from "$lib/stores/auth.svelte";
+  import Login from "$lib/components/Login.svelte";
 
   let { children } = $props();
-
-  let tabs = [
-    { id: 0, label: "Main", href: "/" },
-    { id: 1, label: "App Users", href: "/app-users" },
-    { id: 2, label: "Connections", href: "/connections" },
-    { id: 3, label: "Connections Folders", href: "/connections-folders" },
-    { id: 4, label: "Query Editor", href: "/query-editor" },
-  ];
 </script>
 
-<div role="tablist" class="tabs tabs-box">
-  {#each tabs as tab}
-    <a
-      href={tab.href}
-      class={tab.href === page.url.pathname ? "tab tab-active" : "tab"}
+<div
+  class="flex h-screen w-full flex-col overflow-hidden bg-base-100 text-base-content"
+>
+  {#if authState.isAuthenticated}
+    {#key page.url.pathname}
+      <div in:fade={{ duration: 150 }} class="h-full">
+        {@render children()}
+      </div>
+    {/key}
+  {:else}
+    <main
+      class="flex h-full w-full items-center justify-center relative bg-base-200"
     >
-      {tab.label}
-    </a>
-  {/each}
+      <Login />
+    </main>
+  {/if}
 </div>
-
-{#key page.url.pathname}
-  <div in:fade={{ duration: 150 }} style="position: relative; width: 100%;">
-    {@render children()}
-  </div>
-{/key}

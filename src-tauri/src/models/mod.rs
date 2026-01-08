@@ -1,0 +1,10 @@
+pub mod app_user_logs;
+pub mod app_users;
+pub mod bookmarks;
+pub mod connection_folders;
+pub mod connection_tags;
+pub mod connections;
+pub mod diagrams;
+pub mod pinned_queries;
+pub mod query_history;
+pub mod tags;
